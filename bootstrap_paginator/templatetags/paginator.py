@@ -36,12 +36,15 @@ def paginator(context, page=None):
         'page_numbers': page_numbers,
         'show_first': 1 not in page_numbers,
         'show_last': paginator.num_pages not in page_numbers,
-        'request': context['request'],
+        'request': context.get('request'),
     }
 
 
 @register.simple_tag(takes_context=True)
 def append_to_get(context, **kwargs):
-    get = context['request'].GET.copy()
+    if 'request' in context:
+        get = context['request'].GET.copy()
+    else:
+        get = {}
     get.update(kwargs)
     return '?{1}'.format(urlencode(get))
