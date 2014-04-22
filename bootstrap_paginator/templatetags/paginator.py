@@ -47,4 +47,4 @@ def append_to_get(context, **kwargs):
     else:
         get = {}
     get.update(kwargs)
-    return '?{1}'.format(urlencode(get))
+    return '?{}'.format(urlencode(get))
