@@ -1,0 +1,35 @@
+{% load append_to_get %}
+
+{% if paginator.num_pages > 1 %}
+  <ul class="pagination pagination-centered pagination-sm">
+
+    {% if page.has_previous %}
+      <li><a href="{% append_to_get page=page.previous_page_number %}">&laquo;</a></li>
+    {% endif %}
+
+    {% if show_first %}
+      <li><a href="{% append_to_get page=1 %}">1</a></span>
+      <li class="disabled"><a href="javascript:;">...</a></li>
+    {% endif %}
+
+    {% for linkpage in page_numbers %}
+      {% if linkpage == page.number %}
+         <li class="active"><a href="javascript:;">{{ page.number }}</a></li>
+      {% else %}
+         <li><a href="{% append_to_get page=linkpage %}">{{ linkpage }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if show_last %}
+      <li class="disabled"><a href="javascript:;">...</a></li>
+      <li><a href="{% append_to_get page=paginator.num_pages %}">
+        {{ paginator.num_pages }}
+      </a></li>
+    {% endif %}
+
+    {% if page.has_next %}
+      <li><a href="{% append_to_get page=page.next_page_number %}">&raquo;</a></li>
+    {% endif %}
+
+  </ul>
+{% endif %}
