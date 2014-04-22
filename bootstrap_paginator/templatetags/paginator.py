@@ -1,5 +1,5 @@
 
-import urllib
+from django.utils.six.moves.urllib.parse import urlencode
 from django import template
 
 register = template.Library()
@@ -44,4 +44,4 @@ def paginator(context, page=None):
 def append_to_get(context, **kwargs):
     get = context['request'].GET.copy()
     get.update(kwargs)
-    return '?{1}'.format(urllib.urlencode(get))
+    return '?{1}'.format(urlencode(get))
