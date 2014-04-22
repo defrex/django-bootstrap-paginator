@@ -1,1 +1,1 @@
-include bootstrap_paginator/templates/bootstrap_paginator/*.html
+recursive-include bootstrap_paginator *.html *.py
