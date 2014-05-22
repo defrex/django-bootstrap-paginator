@@ -1,6 +1,10 @@
 
 from django.utils.six.moves.urllib.parse import urlencode
 from django import template
+from django.conf import settings
+
+
+PAGINATOR_ADJACENT_PAGES = getattr(settings, 'PAGINATOR_ADJACENT_PAGES', 2)
 
 register = template.Library()
 
@@ -15,15 +19,13 @@ def paginator(context, page=None):
     last page links in addition to those created by the object_list generic
     view.
     """
-    adjacent_pages = 2
-
     page = context.get('page_obj', page)
     paginator = page.paginator
 
-    startPage = page.number - adjacent_pages
-    if startPage <= adjacent_pages + 1:
+    startPage = page.number - PAGINATOR_ADJACENT_PAGES
+    if startPage <= PAGINATOR_ADJACENT_PAGES + 1:
         startPage = 1
-    endPage = page.number + adjacent_pages + 1
+    endPage = page.number + PAGINATOR_ADJACENT_PAGES + 1
 
     page_numbers = [
         n for n in range(startPage, endPage)
