@@ -9,14 +9,14 @@
   {% endif %}
 
   {% set end_page = page.number + ADJACENT_PAGES %}
-  {% if end_page > page.paginator.num_pages %}
-    {% set end_page = page.paginator.num_pages %}
+  {% if end_page > page.paginator.num_pages + 1 %}
+    {% set end_page = page.paginator.num_pages + 1 %}
   {% endif %}
 
   <ul class="pagination pagination-centered pagination-sm">
 
-    {% if page.has_previous %}
-      <li><a href="{{ urlencode_plus(get_args, page=page.previous_page_number) }}">&laquo;</a></li>
+    {% if page.has_previous() %}
+      <li><a href="{{ urlencode_plus(get_args, page=page.previous_page_number()) }}">&laquo;</a></li>
     {% endif %}
 
     {% if start_page > 1 %}
@@ -43,8 +43,8 @@
       </a></li>
     {% endif %}
 
-    {% if page.has_next %}
-      <li><a href="{{ urlencode_plus(get_args, page=page.next_page_number) }}">&raquo;</a></li>
+    {% if page.has_next() %}
+      <li><a href="{{ urlencode_plus(get_args, page=page.next_page_number()) }}">&raquo;</a></li>
     {% endif %}
 
   </ul>
