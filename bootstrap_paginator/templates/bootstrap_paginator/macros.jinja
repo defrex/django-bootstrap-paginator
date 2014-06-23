@@ -1,0 +1,52 @@
+
+{% macro paginator(page, get_args={}) %}
+{% if page.paginator.num_pages > 1 %}
+  {% set ADJACENT_PAGES = 5 %}
+
+  {% set start_page = page.number - ADJACENT_PAGES %}
+  {% if start_page < 1 %}
+    {% set start_page = 1 %}
+  {% endif %}
+
+  {% set end_page = page.number + ADJACENT_PAGES %}
+  {% if end_page > page.paginator.num_pages %}
+    {% set end_page = page.paginator.num_pages %}
+  {% endif %}
+
+  <ul class="pagination pagination-centered pagination-sm">
+
+    {% if page.has_previous %}
+      <li><a href="{{ urlencode_plus(get_args, page=page.previous_page_number) }}">&laquo;</a></li>
+    {% endif %}
+
+    {% if start_page > 1 %}
+      <li><a href="{{ urlencode_plus(get_args, page=1) }}">1</a></span>
+      {% if start_page > 2 %}
+        <li class="disabled"><a href="javascript:;">...</a></li>
+      {% endif %}
+    {% endif %}
+
+    {% for page_number in range(start_page, end_page) %}
+      {% if page_number == page.number %}
+         <li class="active"><a href="javascript:;">{{ page.number }}</a></li>
+      {% else %}
+         <li><a href="{{ urlencode_plus(get_args, page=page_number) }}">{{ page_number }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if end_page < page.paginator.num_pages %}
+      {% if end_page < page.paginator.num_pages - 1 %}
+        <li class="disabled"><a href="javascript:;">...</a></li>
+      {% endif %}
+      <li><a href="{{ urlencode_plus(get_args, page=page.paginator.num_pages) }}">
+        {{ page.paginator.num_pages }}
+      </a></li>
+    {% endif %}
+
+    {% if page.has_next %}
+      <li><a href="{{ urlencode_plus(get_args, page=page.next_page_number) }}">&raquo;</a></li>
+    {% endif %}
+
+  </ul>
+{% endif %}
+{% endmacro %}
