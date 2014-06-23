@@ -1,1 +1,1 @@
-recursive-include bootstrap_paginator *.html *.py
+recursive-include bootstrap_paginator *.html *.py *.jinja
