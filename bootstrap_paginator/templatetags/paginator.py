@@ -1,4 +1,6 @@
 
+from __future__ import unicode_literals
+
 from django.utils.six.moves.urllib.parse import urlencode
 from django import template
 from django.conf import settings
