@@ -1,7 +1,8 @@
-
+# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
 from django.utils.six.moves.urllib.parse import urlencode
+from django.utils.six import text_type
 from django import template
 from django.conf import settings
 
@@ -55,18 +56,25 @@ def paginator(context, page=None):
     }
 
 
+@lib.global_function
+def urlencode_plus(values, **plus):
+    new_values = {}
+    new_values.update(values)
+    new_values.update(plus)
+
+    for key, value in values.items():
+        if isinstance(value, text_type):
+            new_values[key] = value.encode('utf8')
+        else:
+            new_values[key] = value
+
+    return '?{}'.format(urlencode(new_values))
+
+
 @register.simple_tag(takes_context=True)
 def append_to_get(context, **kwargs):
     if 'request' in context:
         get = context['request'].GET.copy()
     else:
         get = {}
-    get.update(kwargs)
-    return '?{}'.format(urlencode(get))
-
-
-@lib.global_function
-def urlencode_plus(values, **plus):
-    values = values.copy()
-    values.update(plus)
-    return '?{}'.format(urlencode(values))
+    return urlencode_plus(get, **kwargs)

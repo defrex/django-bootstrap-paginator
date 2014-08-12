@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from django.test import TestCase, Client
 
@@ -12,4 +14,8 @@ class BootstrapPaginatorTestCase(TestCase):
 
     def test_paginator(self):
         response = Client().get('/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_unicode_get(self):
+        response = Client().get('/?city=Montréal')
         self.assertEqual(response.status_code, 200)
