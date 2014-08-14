@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.utils.six.moves.urllib.parse import urlencode
 from django.utils.six import text_type
+from django.http import QueryDict
 from django import template
 from django.conf import settings
 
@@ -58,23 +59,23 @@ def paginator(context, page=None):
 
 @lib.global_function
 def urlencode_plus(values, **plus):
-    new_values = {}
-    new_values.update(values)
-    new_values.update(plus)
+    if isinstance(values, QueryDict):
+        values = values.dict()
+    values.update(plus)
 
-    for key, value in new_values.items():
+    for key, value in values.items():
         if isinstance(value, text_type):
-            new_values[key] = value.encode('utf8')
+            values[key] = value.encode('utf8')
         else:
-            new_values[key] = value
+            values[key] = value
 
-    return '?{}'.format(urlencode(new_values))
+    return '?{}'.format(urlencode(values))
 
 
 @register.simple_tag(takes_context=True)
 def append_to_get(context, **kwargs):
     if 'request' in context:
-        get = context['request'].GET.dict()
+        get = context['request'].GET
     else:
         get = {}
     return urlencode_plus(get, **kwargs)
