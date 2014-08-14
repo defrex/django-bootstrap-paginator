@@ -21,6 +21,11 @@ class BootstrapPaginatorTestCase(TestCase):
         response = Client().get('/?city=Montréal')
         self.assertEqual(response.status_code, 200)
 
+    def test_unchanged(self):
+        response = Client().get('/?text=smith')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('text=smith&page=2' in response.content)
+
     def test_urlencode_plus(self):
         self.assertTrue(
             'page=3' in urlencode_plus({'page': '2'}, page='3')

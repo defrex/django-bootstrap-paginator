@@ -74,7 +74,7 @@ def urlencode_plus(values, **plus):
 @register.simple_tag(takes_context=True)
 def append_to_get(context, **kwargs):
     if 'request' in context:
-        get = context['request'].GET.copy()
+        get = context['request'].GET.dict()
     else:
         get = {}
     return urlencode_plus(get, **kwargs)
