@@ -62,7 +62,7 @@ def urlencode_plus(values, **plus):
     new_values.update(values)
     new_values.update(plus)
 
-    for key, value in values.items():
+    for key, value in new_values.items():
         if isinstance(value, text_type):
             new_values[key] = value.encode('utf8')
         else:
