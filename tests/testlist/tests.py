@@ -25,3 +25,6 @@ class BootstrapPaginatorTestCase(TestCase):
         self.assertTrue(
             'page=3' in urlencode_plus({'page': '2'}, page='3')
         )
+        self.assertEqual(
+            '?text=smith&page=3', urlencode_plus({'text': 'smith'}, page='3')
+        )
